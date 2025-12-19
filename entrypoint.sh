@@ -39,6 +39,9 @@ fi
 
 python manage.py migrate --noinput
 
+echo "===> Updating Django Site domain"
+python update_site_domain.py || echo "Warning: Site domain update failed, continuing anyway"
+
 echo "===> Collecting static files"
 python manage.py collectstatic --noinput
 

@@ -8,31 +8,46 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-only-change-in-production')
-DEBUG = os.getenv('DEBUG', 'False').lower() in ('1', 'true', 'yes')
+
+# Detect production environment (Railway or when DATABASE_URL contains railway/postgres)
+IS_PRODUCTION = bool(
+    os.getenv('RAILWAY_ENVIRONMENT') or 
+    (os.getenv('DATABASE_URL') and 'railway' in os.getenv('DATABASE_URL', '').lower())
+)
+
+# DEBUG should be False in production, but can be overridden with DEBUG=True env var
+DEBUG = False if IS_PRODUCTION else os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
 # Production security settings
-if not DEBUG:
+if not DEBUG and IS_PRODUCTION:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_SSL_REDIRECT = True
     SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_SECURITY_POLICY = {
-        'default-src': ("'self'",),
-    }
+    # Disable CSP for now as it can block legitimate resources
+    # SECURE_CONTENT_SECURITY_POLICY = {
+    #     'default-src': ("'self'",),
+    # }
 
 # =========================
 # ALLOWED HOSTS
 # =========================
 # Always allow local/dev hosts so the server works out of the box
-_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,*.railway.app').split(',')
+_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,wellness-project-2-production.up.railway.app,*.railway.app').split(',')
 _local_hosts = ['localhost', '127.0.0.1']
+
+# Capture Railway-provided hostnames from common env vars
+_railway_host = os.getenv('RAILWAY_PUBLIC_DOMAIN') or os.getenv('RAILWAY_DOMAIN') or os.getenv('RAILWAY_URL')
+_railway_host = _railway_host.replace('https://', '').replace('http://', '').strip('/') if _railway_host else ''
 
 # Allow Codespaces-style forwarded hosts (e.g., *.app.github.dev) automatically
 if os.getenv('CODESPACE_NAME') or os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN'):
     _local_hosts.append('*.app.github.dev')
 
 ALLOWED_HOSTS = [host for host in _default_allowed_hosts + _local_hosts if host]
+if _railway_host:
+    ALLOWED_HOSTS.append(_railway_host)
 
 # Use SECURE_PROXY_SSL_HEADER when behind a proxy (Railway or GitHub Codespaces)
 # This tells Django to trust X-Forwarded-Proto header for determining the scheme
@@ -91,8 +106,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://ojasritu.co.in",
     "https://www.ojasritu.co.in",
+    "https://wellness-project-2-production.up.railway.app",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev",
 ]
+
+if _railway_host:
+    CORS_ALLOWED_ORIGINS.append(f"https://{_railway_host}")
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -106,9 +125,13 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://ojasritu.co.in",
     "https://www.ojasritu.co.in",
+    "https://wellness-project-2-production.up.railway.app",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev/",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev/",
 ]
+
+if _railway_host:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{_railway_host}")
 
 # Use cross-site cookies for SPA authentication (frontend runs on different origin)
 # Browsers require SameSite=None for cross-site cookies
@@ -180,8 +203,20 @@ USE_TZ = True
 # STATIC / MEDIA
 # =========================
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Only include static dir if it exists and has content
+_static_dir = BASE_DIR / "static"
+if _static_dir.exists():
+    STATICFILES_DIRS = [_static_dir]
+else:
+    STATICFILES_DIRS = []
+
+# Include frontend build if it exists
+_frontend_dist = BASE_DIR / "frontend" / "dist"
+if _frontend_dist.exists():
+    STATICFILES_DIRS.append(_frontend_dist)
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
