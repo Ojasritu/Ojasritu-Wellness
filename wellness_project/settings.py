@@ -8,7 +8,10 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-only-change-in-production')
-DEBUG = os.getenv('DEBUG', 'False').lower() in ('1', 'true', 'yes')
+
+# Default to DEBUG=True locally so media/static and browsable API work out of the box.
+# Set DEBUG=0/false in production via env vars (Railway, Docker, etc.).
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
 # Production security settings
 if not DEBUG:
@@ -24,7 +27,15 @@ if not DEBUG:
 # =========================
 # ALLOWED HOSTS
 # =========================
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.railway.app,.app.github.dev').split(',')
+# Always allow local/dev hosts so the server works out of the box
+_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,*.railway.app').split(',')
+_local_hosts = ['localhost', '127.0.0.1']
+
+# Allow Codespaces-style forwarded hosts (e.g., *.app.github.dev) automatically
+if os.getenv('CODESPACE_NAME') or os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN'):
+    _local_hosts.append('*.app.github.dev')
+
+ALLOWED_HOSTS = [host for host in _default_allowed_hosts + _local_hosts if host]
 
 # Use SECURE_PROXY_SSL_HEADER when behind a proxy (Railway or GitHub Codespaces)
 # This tells Django to trust X-Forwarded-Proto header for determining the scheme
