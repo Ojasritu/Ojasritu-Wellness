@@ -34,7 +34,7 @@ if not DEBUG and IS_PRODUCTION:
 # ALLOWED HOSTS
 # =========================
 # Always allow local/dev hosts so the server works out of the box
-_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,wellness-project-2-production.up.railway.app').split(',')
+_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,wellness-project-2-production-ojasritu.up.railway.app').split(',')
 _local_hosts = ['localhost', '127.0.0.1']
 
 # Capture Railway-provided hostnames from common env vars
@@ -109,7 +109,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://ojasritu.co.in",
     "https://www.ojasritu.co.in",
-    "https://wellness-project-2-production.up.railway.app",
+    "https://wellness-project-2-production-ojasritu.up.railway.app",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev",
 ]
 
@@ -128,7 +128,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://ojasritu.co.in",
     "https://www.ojasritu.co.in",
-    "https://wellness-project-2-production.up.railway.app",
+    "https://wellness-project-2-production-ojasritu.up.railway.app",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev/",
     "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev/",
 ]

@@ -4,7 +4,7 @@
 
 set -e
 
-RAILWAY_URL="https://wellness-project-2-production.up.railway.app"
+RAILWAY_URL="https://wellness-project-2-production-ojasritu.up.railway.app"
 CUSTOM_DOMAIN="https://ojasritu.co.in"
 
 echo "🚀 Railway Deployment Verification"
