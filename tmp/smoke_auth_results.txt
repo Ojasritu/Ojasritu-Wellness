@@ -1,0 +1,3 @@
+GET /api/auth/csrf/
+status 200 body b'{"csrftoken":"9ytG6fleSK0mhpJOXTGiZYCKphkbifFLZCQ0IXzu31fRhRRTArEuM0bFtUjzbd8A"}'
+csrftoken: 0exuMSoqlrpFaCifNI8mXcJ5eN9y38DZ

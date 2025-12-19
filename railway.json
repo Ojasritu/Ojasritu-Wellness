@@ -1,0 +1,78 @@
+{
+  "name": "wellness-vaidya-ai",
+  "description": "Ojasritu Wellness - Vaidya AI with GPT-4o Mini",
+  "keywords": [
+    "django",
+    "ayurveda",
+    "chatbot",
+    "wellness",
+    "gpt-4o-mini"
+  ],
+  "repository": "https://github.com/Ojasritu/wellness",
+  "website": "https://wellness.ojasritu.com",
+  "success_url": "/admin",
+  "env": {
+    "SECRET_KEY": {
+      "description": "Django secret key for security",
+      "required": true
+    },
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API key for GPT-4o Mini",
+      "required": true
+    },
+    "DEBUG": {
+      "description": "Django debug mode",
+      "value": "False",
+      "required": false
+    },
+    "ALLOWED_HOSTS": {
+      "description": "Allowed hosts for Django",
+      "value": "localhost,127.0.0.1,yourdomain.com,www.yourdomain.com",
+      "required": false
+    },
+    "STRIPE_PUBLIC_KEY": {
+      "description": "Stripe public key for payments",
+      "required": false
+    },
+    "STRIPE_SECRET_KEY": {
+      "description": "Stripe secret key for payments",
+      "required": false
+    },
+    "RAZORPAY_KEY_ID": {
+      "description": "Razorpay key ID",
+      "required": false
+    },
+    "RAZORPAY_KEY_SECRET": {
+      "description": "Razorpay key secret",
+      "required": false
+    },
+    "DJANGO_SUPERUSER_USERNAME": {
+      "description": "Django admin username",
+      "value": "admin",
+      "required": false
+    },
+    "DJANGO_SUPERUSER_EMAIL": {
+      "description": "Django admin email",
+      "value": "ojasrituwellness@gmail.com",
+      "required": false
+    },
+    "DJANGO_SUPERUSER_PASSWORD": {
+      "description": "Django admin password",
+      "required": true
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "as": "DATABASE"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "python manage.py migrate && python manage.py createsuperuser --noinput || true"
+  }
+}

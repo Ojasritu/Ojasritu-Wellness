@@ -1,0 +1,334 @@
+/* Professional Home page styles - Dark Navy & Golden Theme */
+
+/* Featured Products Section */
+.featured-section {
+  padding: 60px 0;
+  background: linear-gradient(180deg, rgba(10,12,16,0.4), rgba(15,20,25,0.6));
+  border-top: 1px solid rgba(212,175,55,0.06);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  color: #d4af37;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 16px;
+  color: #bfcbd8;
+  margin: 0 0 40px 0;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.featured-card {
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(25,28,35,0.9), rgba(30,35,45,0.9));
+  border: 1px solid rgba(212,175,55,0.12);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.featured-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212,175,55,0.24);
+  box-shadow: 0 12px 40px rgba(212,175,55,0.1);
+  background: linear-gradient(135deg, rgba(30,35,45,0.95), rgba(35,42,55,0.95));
+}
+
+.card-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.featured-card h3 {
+  margin: 0 0 12px 0;
+  color: #e8cfa8;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.featured-card p {
+  margin: 0;
+  color: #9aa8b8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 60px 0;
+  background: linear-gradient(180deg, rgba(15,20,25,0.6), rgba(10,12,16,0.4));
+  border-top: 1px solid rgba(212,175,55,0.06);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.testimonial-card {
+  padding: 32px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(212,175,55,0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(212,175,55,0.16);
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-4px);
+}
+
+.stars {
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: block;
+  letter-spacing: 2px;
+}
+
+.testimonial-card p {
+  margin: 0 0 16px 0;
+  color: #d0dbe8;
+  font-size: 15px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.testimonial-card h4 {
+  margin: 0 0 4px 0;
+  color: #d4af37;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.testimonial-card span {
+  color: #7a8595;
+  font-size: 13px;
+}
+
+/* Page Intro */
+.intro {
+  padding: 48px 0 24px;
+  text-align: center;
+}
+.intro .lead {
+  max-width: 880px;
+  margin: 8px auto 18px;
+  color: #c9d7e6;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.intro-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #1a1f2e 0%, #252d3d 50%, #1a1f2e 100%);
+  border-top: 2px solid rgba(212,175,55,0.1);
+  border-bottom: 2px solid rgba(212,175,55,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
+  animation: sweep 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sweep {
+  0%, 100% { left: -100%; }
+  50% { left: 0; }
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 42px;
+  color: #f7f3e9;
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.cta-section p {
+  font-size: 18px;
+  color: #b9c6d8;
+  margin: 0 0 32px 0;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.cta-btn:focus { outline: 3px solid rgba(212,175,55,0.22); outline-offset: 3px; }
+
+.cta-btn.primary {
+  background: linear-gradient(135deg, #d4af37 0%, #e8c547 100%);
+  color: #0f1419;
+  box-shadow: 0 8px 24px rgba(212,175,55,0.3);
+}
+
+.cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(212,175,55,0.4);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  border: 2px solid #d4af37;
+  color: #d4af37;
+}
+
+.cta-btn.secondary:hover {
+  background: rgba(212,175,55,0.1);
+  transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .featured-section,
+  .testimonials-section {
+    padding: 40px 0;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+  }
+
+  .featured-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .featured-card,
+  .testimonial-card {
+    padding: 20px;
+  }
+
+  .cta-section {
+    padding: 50px 0;
+  }
+
+  .cta-section h2 {
+    font-size: 28px;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-section,
+  .testimonials-section {
+    padding: 30px 0;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .featured-card,
+  .testimonial-card {
+    padding: 16px;
+  }
+
+  .card-icon {
+    font-size: 40px;
+  }
+
+  .featured-card h3 {
+    font-size: 16px;
+  }
+
+  .cta-section {
+    padding: 40px 0;
+  }
+
+  .cta-section h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Performance: Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .featured-card,
+  .testimonial-card,
+  .cta-btn,
+  .card-icon {
+    transition: none;
+    animation: none;
+  }
+}

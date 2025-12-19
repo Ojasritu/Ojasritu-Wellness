@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ojasritu API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: flex;
+            gap: 15px;
+        }
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Ojasritu Wellness - API Test Page</h1>
+    
+    <div class="test-section">
+        <h2>1. Products API Test</h2>
+        <button onclick="testProductsAPI()">Test GET /api/products/</button>
+        <div id="products-result"></div>
+        <div id="products-display"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Cart API Test</h2>
+        <button onclick="testCartAdd()">Test POST /api/cart/add/</button>
+        <button onclick="testCartGet()">Test GET /api/cart/</button>
+        <div id="cart-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Pre-booking API Test</h2>
+        <button onclick="testPrebook()">Test POST /api/prebook/</button>
+        <div id="prebook-result"></div>
+    </div>
+
+    <script>
+        async function testProductsAPI() {
+            const resultDiv = document.getElementById('products-result');
+            const displayDiv = document.getElementById('products-display');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const response = await fetch('/api/products/', {
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && Array.isArray(data)) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            ✅ Success! Found ${data.length} products
+                        </div>
+                    `;
+                    
+                    displayDiv.innerHTML = data.map(product => `
+                        <div class="product-card">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" 
+                                 onerror="this.style.display='none'">
+                            <div>
+                                <h3>${product.name}</h3>
+                                <p><strong>Category:</strong> ${product.category_name}</p>
+                                <p><strong>Price:</strong> ₹${product.discount_price || product.price}</p>
+                                <p><strong>Rating:</strong> ${product.rating}/5.0</p>
+                                <p><strong>Status:</strong> ${product.status}</p>
+                                <button onclick="addToCart(${product.id}, '${product.name}')">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Error: Response is not an array
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function addToCart(productId, productName) {
+            try {
+                const response = await fetch('/api/cart/add/', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    alert(`✅ ${productName} added to cart!`);
+                    document.getElementById('cart-result').innerHTML = `
+                        <div class="status success">
+                            ${data.message}<br>
+                            Cart Total: ₹${data.cart_total}<br>
+                            Items: ${data.cart_items_count}
+                        </div>
+                    `;
+                } else {
+                    alert(`❌ Error: ${data.error || 'Failed to add to cart'}`);
+                    if (response.status === 401) {
+                        alert('Please login first at /admin/');
+                    }
+                }
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        }
+
+        async function testCartAdd() {
+            const resultDiv = document.getElementById('cart-result');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const response = await fetch('/api/cart/add/', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: 1,
+                        quantity: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            ✅ ${data.message}<br>
+                            Cart Total: ₹${data.cart_total}<br>
+                            Items: ${data.cart_items_count}
+                        </div>
+                    `;
+                } else if (response.status === 401) {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Authentication required<br>
+                            Please login at: <a href="/admin/" target="_blank">/admin/</a>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Error: ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function testCartGet() {
+            const resultDiv = document.getElementById('cart-result');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const response = await fetch('/api/cart/', {
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    if (data.items && data.items.length > 0) {
+                        resultDiv.innerHTML = `
+                            <div class="status success">
+                                ✅ Cart Contents:<br>
+                                ${data.items.map(item => `
+                                    - ${item.product.name} x ${item.quantity} = ₹${item.total_price}
+                                `).join('<br>')}
+                                <br><strong>Total: ₹${data.total_price}</strong>
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="status success">
+                                Cart is empty
+                            </div>
+                        `;
+                    }
+                } else if (response.status === 401) {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Authentication required<br>
+                            Please login at: <a href="/admin/" target="_blank">/admin/</a>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Error: ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function testPrebook() {
+            const resultDiv = document.getElementById('prebook-result');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                const response = await fetch('/api/prebook/', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: 1,
+                        quantity: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            ✅ ${data.message}<br>
+                            Order ID: ${data.order_id}<br>
+                            Amount: ₹${data.amount}<br>
+                            Status: ${data.status}<br>
+                            Note: ${data.note}
+                        </div>
+                    `;
+                } else if (response.status === 401) {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Authentication required<br>
+                            Please login at: <a href="/admin/" target="_blank">/admin/</a>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Error: ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-test products API on page load
+        window.onload = () => {
+            testProductsAPI();
+        };
+    </script>
+</body>
+</html>

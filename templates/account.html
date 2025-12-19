@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block title %}My Account - Wellness Hub{% endblock %}
+
+{% block content %}
+<style>
+    .account-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .account-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 0.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .btn-submit, .btn-secondary {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-submit {
+        background-color: #667eea;
+        color: white;
+        width: 100%;
+    }
+    
+    .btn-submit:hover {
+        background-color: #5568d3;
+    }
+    
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+        margin-top: 1rem;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+    
+    .orders-section {
+        grid-column: 1 / -1;
+    }
+    
+    .order-item, .prebooking-item {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-left: 4px solid #667eea;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
+    
+    .order-item h3, .prebooking-item h3 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .order-item p, .prebooking-item p {
+        color: #666;
+        margin: 0.3rem 0;
+        font-size: 0.95rem;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        margin-top: 0.5rem;
+    }
+    
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-confirmed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-delivered {
+        background-color: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .empty-message {
+        text-align: center;
+        color: #999;
+        padding: 2rem;
+    }
+</style>
+
+{% if not user.is_authenticated %}
+<div class="section">
+    <p>Please <a href="{% url 'login' %}">login</a> to view your account.</p>
+</div>
+{% else %}
+
+<h1 style="color: #2c3e50; margin-bottom: 2rem;">{{ user.first_name|default:user.username }}'s Account</h1>
+
+<div class="account-container">
+    <!-- PreBooking Form Section -->
+    <div class="section">
+        <h2>📅 Pre-Book a Service</h2>
+        <form method="POST" action="{% url 'prebook' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="service_name">Service Name *</label>
+                <input type="text" id="service_name" name="service_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="wellness">Wellness</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="nutrition">Nutrition</option>
+                    <option value="therapy">Therapy</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="preferred_date">Preferred Date *</label>
+                <input type="date" id="preferred_date" name="preferred_date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="preferred_time">Preferred Time *</label>
+                <input type="time" id="preferred_time" name="preferred_time" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="duration">Duration (minutes)</label>
+                <input type="number" id="duration" name="duration" value="30" min="15" step="15">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Additional Notes</label>
+                <textarea id="description" name="description" placeholder="Any special requirements or notes..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">Book Service</button>
+        </form>
+    </div>
+    
+    <!-- Orders Section -->
+    <div class="section">
+        <h2>📑 My Orders</h2>
+        {% if orders %}
+            {% for order in orders|slice:":5" %}
+                <div class="order-item">
+                    <h3>Order #{{ order.id }}</h3>
+                    <p><strong>Date:</strong> {{ order.order_date|date:"M d, Y" }}</p>
+                    <p><strong>Amount:</strong> ${{ order.total_amount }}</p>
+                    <p><strong>Shipping Address:</strong> {{ order.shipping_address|truncatewords:10 }}</p>
+                    <span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-message">
+                <p>No orders yet. <a href="{% url 'products' %}">Start shopping now!</a></p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Pre-Bookings Section -->
+<div class="section orders-section">
+    <h2>🗣️ My Pre-Bookings</h2>
+    {% if prebookings %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+            {% for prebooking in prebookings %}
+                <div class="prebooking-item">
+                    <h3>{{ prebooking.service_name }}</h3>
+                    <p><strong>Category:</strong> {{ prebooking.get_category_display }}</p>
+                    <p><strong>Date:</strong> {{ prebooking.preferred_date|date:"M d, Y" }}</p>
+                    <p><strong>Time:</strong> {{ prebooking.preferred_time|time:"H:i" }}</p>
+                    <p><strong>Duration:</strong> {{ prebooking.duration }} minutes</p>
+                    {% if prebooking.description %}
+                        <p><strong>Notes:</strong> {{ prebooking.description }}</p>
+                    {% endif %}
+                    <span class="status-badge status-{{ prebooking.status }}">{{ prebooking.get_status_display }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-message">
+            <p>No pre-bookings yet. Fill out the form to book a service!</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endif %}
+{% endblock %}

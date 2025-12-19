@@ -1,0 +1,21 @@
+{
+  "name": "Wellness Codespace",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/node": {
+      "version": "18"
+    }
+  },
+  "postCreateCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt || true && cd frontend && npm ci || true && cd .. && chmod +x scripts/*.sh || true && python manage.py migrate --noinput || true && python scripts/seed_dev_data.py || true",
+  "forwardPorts": [8000, 5173],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}

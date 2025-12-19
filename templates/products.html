@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Products - Wellness Store{% endblock %}
+
+{% block extra_css %}
+<style>
+    .products-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 60px 0;
+        color: white;
+        text-align: center;
+    }
+    
+    .filter-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 30px 0;
+    }
+    
+    .product-item {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease;
+    }
+    
+    .product-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    
+    .product-image {
+        height: 300px;
+        overflow: hidden;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .product-item:hover .product-image img {
+        transform: scale(1.1);
+    }
+    
+    .product-info {
+        padding: 20px;
+    }
+    
+    .product-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .product-price {
+        font-size: 1.8rem;
+        color: #667eea;
+        font-weight: 700;
+        margin: 15px 0;
+    }
+    
+    .btn-add-cart {
+        width: 100%;
+        padding: 12px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-add-cart:hover {
+        background: #5568d3;
+        transform: scale(1.05);
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="products-header">
+    <div class="container">
+        <h1 class="display-4">Our Products</h1>
+        <p class="lead">Discover premium wellness products</p>
+    </div>
+</section>
+
+<div class="container mt-5 mb-5">
+    <div class="filter-section">
+        <form method="GET" action="{% url 'products' %}">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-4">
+                    <select name="category" class="form-control">
+                        <option value="">All Categories</option>
+                        <option value="vitamins">Vitamins</option>
+                        <option value="supplements">Supplements</option>
+                        <option value="organic">Organic</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="product-grid">
+        {% if products %}
+            {% for product in products %}
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="text-muted">{{ product.description|truncatewords:15 }}</p>
+                    <div class="product-price">\${{ product.price }}</div>
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-add-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500" alt="Products" class="img-fluid mb-4 rounded">
+                <h3>No products found</h3>
+                <p>Check back soon for new products!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

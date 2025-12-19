@@ -1,0 +1,111 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 28px;
+  background: linear-gradient(90deg,#071021 0%, #071c2f 100%);
+  border-bottom: 1px solid rgba(212,175,55,0.08);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-left a {
+  color: #f5d76e;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.nav-left a:hover { background: rgba(212,175,55,0.06); }
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-link {
+  position: relative;
+  color: #f5d76e;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(212,175,55,0.3);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-link:hover {
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-1px);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #10b981;
+  color: #071c2f;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid #0f7c5d;
+}
+
+.login-btn,
+.profile-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #d4af37;
+  color: #071c2f;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.login-btn:hover,
+.profile-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.3);
+}
+
+.logout-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.9);
+  color: #d4af37;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(212,175,55,0.1);
+  transform: translateY(-1px);
+}
+
+.logout-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 800px) {
+  .navbar { padding: 12px 14px; }
+  .nav-left a { display: none; }
+  .nav-left .logo { display: inline-block; }
+}

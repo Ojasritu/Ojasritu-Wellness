@@ -1,0 +1,40 @@
+# railway.toml - suggested configuration for Railway deployments
+# This file documents recommended service settings. You still need to
+# configure the Railway project via the Railway UI/CLI (add Postgres plugin,
+# set environment variables). The `Dockerfile` in the repo will be used to
+# build the container.
+
+project = "wellness"
+
+# Service: web
+[[services]]
+name = "web"
+type = "docker"
+path = "."
+start = "sh ./entrypoint.sh"
+# Let Railway build using the repository Dockerfile
+build = { dockerfile = "Dockerfile" }
+
+# Recommended environment variables to configure in Railway (add via UI or CLI)
+# - SECRET_KEY: Django secret key (production value)
+# - DATABASE_URL: postgres://user:pass@host:port/dbname  (Railway will supply if you add a Postgres plugin)
+# - DEBUG: False
+# - OPENAI_API_KEY
+# - GOOGLE_CLIENT_ID
+# - GOOGLE_CLIENT_SECRET
+# - STRIPE_PUBLISHABLE_KEY
+# - STRIPE_SECRET_KEY
+# Example: railway variables can be set via `railway variables set NAME value --service web`
+
+# Plugins: use Railway Postgres plugin for production DB
+[[plugins]]
+service = "postgres"
+name = "database"
+
+# Notes:
+# - Railway sets a `PORT` environment variable for the container; the entrypoint
+#   in this repo reads PORT and starts Gunicorn accordingly.
+# - Build will use the project's Dockerfile which builds the frontend and
+#   backend in a multi-stage image.
+# - After connecting the repo in Railway, add a Postgres plugin to the project
+#   and Railway will populate `DATABASE_URL` automatically.

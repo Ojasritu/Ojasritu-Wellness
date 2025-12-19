@@ -1,0 +1,83 @@
+/* REPLACE THIS FILE - Profile.css */
+:root{
+  --navy-1: #021028;
+  --navy-2: #092940;
+  --gold: #d6a04a;
+  --muted: #9aa4b2;
+  --card: rgba(255,255,255,0.03);
+  --glass: rgba(255,255,255,0.04);
+}
+
+.pf-root{min-height:80vh;background:linear-gradient(180deg,var(--navy-1),var(--navy-2));padding:32px;color:#e9eef6}
+.pf-container{display:flex;gap:24px;max-width:1200px;margin:0 auto}
+
+/* Sidebar */
+.pf-sidebar{width:280px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;position:sticky;top:24px;align-self:flex-start;box-shadow:0 6px 20px rgba(2,16,40,0.6)}
+.pf-avatar-wrap{text-align:center}
+.pf-avatar{width:120px;height:120px;border-radius:999px;object-fit:cover;border:4px solid rgba(255,255,255,0.06)}
+.pf-avatar.pf-initials{display:flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:999px;background:linear-gradient(135deg,var(--gold),#f0b96b);color:#072033;font-weight:700;font-size:36px}
+.pf-avatar-actions{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.btn.small{padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);color:var(--gold);cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:#e9eef6}
+
+.pf-user{margin-top:12px;text-align:center}
+.pf-name{font-weight:700;font-size:18px}
+.pf-email{font-size:13px;color:var(--muted);margin-top:6px}
+.btn.edit{margin-top:12px;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,var(--gold),#f0b96b);border:0;color:#072033;font-weight:600}
+
+.pf-nav{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.nav-item{background:transparent;border:0;padding:10px 12px;text-align:left;color:#dbeafc;border-radius:8px;cursor:pointer}
+.nav-item.active{background:linear-gradient(90deg, rgba(214,160,74,0.12), rgba(240,185,107,0.06));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);}
+.nav-item.logout{color:#ffddd0}
+
+/* Main */
+.pf-main{flex:1}
+.pf-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,16,40,0.6)}
+.pf-overview h1{margin:0;font-size:22px}
+.pf-overview p.muted{color:var(--muted);margin-top:6px}
+.pf-stats{display:flex;gap:14px;margin-top:18px}
+.stat-card{flex:1;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;position:relative}
+.stat-value{font-size:20px;font-weight:700}
+.stat-label{color:var(--muted);margin-top:6px}
+.stat-accent.gold{position:absolute;right:10px;top:10px;width:8px;height:36px;background:linear-gradient(180deg,var(--gold),#f0b96b);border-radius:6px}
+
+.recent{margin-top:20px}
+.recent-item{padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+
+/* Form */
+.pf-form{display:flex;flex-direction:column;gap:10px}
+.pf-form label{font-size:13px;color:var(--muted)}
+.pf-form input, .pf-form textarea{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#e9eef6}
+.pf-actions{margin-top:12px}
+.btn.primary{background:linear-gradient(90deg,var(--gold),#f0b96b);color:#072033;padding:10px 14px;border-radius:10px;border:0}
+
+/* Table */
+.orders-table table{width:100%;border-collapse:collapse}
+.orders-table th{text-align:left;padding:10px;color:var(--muted);font-size:13px}
+.orders-table td{padding:10px;border-top:1px dashed rgba(255,255,255,0.02)}
+.btn.small{padding:6px 8px}
+
+.status-badge{padding:4px 8px;border-radius:8px;font-size:12px}
+.status-badge.pending{background:rgba(255,200,90,0.08);color:#f3b85a}
+.status-badge.success{background:rgba(20,120,80,0.08);color:#2bd57a}
+.status-badge.danger{background:rgba(220,53,69,0.08);color:#ff6b6b}
+.status-badge.info{background:rgba(26,115,232,0.06);color:#93c1ff}
+
+/* Bookings */
+.booking-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+.booking-type{font-weight:600}
+.booking-date.muted{color:var(--muted);font-size:13px}
+
+/* Toast */
+.pf-toast{position:fixed;right:24px;top:24px;padding:12px 16px;border-radius:10px;color:#072033;background:var(--gold);box-shadow:0 8px 30px rgba(1,8,20,0.6)}
+.pf-toast.error{background:#f9d6d6;color:#5b1111}
+
+/* Mobile */
+@media (max-width:900px){
+  .pf-container{flex-direction:column;padding:18px}
+  .pf-sidebar{width:100%;position:relative}
+}
+
+/* Loading */
+.pf-loading{min-height:400px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+

@@ -1,0 +1,26 @@
+name: Update GoDaddy DNS
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+jobs:
+  update-dns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure dns_update.sh is executable
+        run: chmod +x ./dns_update.sh || true
+
+      - name: Run GoDaddy DNS update
+        env:
+          GODADDY_API_KEY: ${{ secrets.GODADDY_API_KEY }}
+          GODADDY_API_SECRET: ${{ secrets.GODADDY_API_SECRET }}
+          DOMAIN: ${{ secrets.DOMAIN }}
+          RAILWAY_APP_HOST: ${{ secrets.RAILWAY_APP_HOST }}
+        run: |
+          echo "Running dns_update.sh with DOMAIN=${DOMAIN} and host=${RAILWAY_APP_HOST}"
+          ./dns_update.sh

@@ -1,0 +1,83 @@
+name: Deploy (Railway + GoDaddy)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Copy frontend build into static/frontend
+        run: |
+          mkdir -p static/frontend
+          if [ -d frontend/dist ]; then
+            cp -r frontend/dist/* static/frontend/ || true
+          elif [ -d frontend/build ]; then
+            cp -r frontend/build/* static/frontend/ || true
+          else
+            echo "Warning: frontend build folder not found" >&2
+          fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ensure helper scripts are executable
+        run: |
+          chmod +x ./scripts/deploy_railway.sh || true
+          chmod +x ./scripts/update_godaddy.sh || true
+
+      - name: Install jq (for parsing JSON)
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Deploy to Railway (script)
+        env:
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          ./scripts/deploy_railway.sh
+
+      - name: Read Railway host
+        id: read_host
+        run: |
+          if [ -f railway_host.txt ]; then
+            HOST=$(cat railway_host.txt)
+            echo "RAILWAY_HOST=$HOST" >> $GITHUB_ENV
+            echo "host=$HOST" > host_output.txt
+          else
+            echo "railway_host.txt not found" >&2
+            exit 1
+          fi
+
+      - name: Update GoDaddy DNS (script)
+        env:
+          GODADDY_KEY: ${{ secrets.GODADDY_KEY }}
+          GODADDY_SECRET: ${{ secrets.GODADDY_SECRET }}
+          DOMAIN: ${{ secrets.DOMAIN }}
+          GODADDY_RECORD_NAME: ${{ secrets.GODADDY_RECORD_NAME }}
+          RAILWAY_HOST: ${{ env.RAILWAY_HOST }}
+        run: |
+          ./scripts/update_godaddy.sh
+

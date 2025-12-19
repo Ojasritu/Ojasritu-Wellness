@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block extra_css %}
+<style>
+  .product-hero{padding:40px 0;background:#f8f9fa}
+  .price{font-size:1.8rem;font-weight:700;color:#667eea}
+  .old-price{text-decoration:line-through;color:#999;margin-left:8px}
+  .badge-pill{border-radius:30px}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="product-hero">
+  <div class="container">
+    <div class="row align-items-start g-4">
+      <div class="col-md-5">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow-sm">
+        {% endif %}
+      </div>
+      <div class="col-md-7">
+        <h1 class="mb-2">{{ product.name }}</h1>
+        {% if product.hindi_name %}
+        <div class="text-muted mb-2">{{ product.hindi_name }}</div>
+        {% endif %}
+        <div class="mb-3">
+          <span class="badge bg-success badge-pill text-uppercase">{{ product.get_dosha_type_display }}</span>
+          {% if product.is_bestseller %}<span class="badge bg-warning text-dark ms-2">Bestseller</span>{% endif %}
+          {% if product.is_featured %}<span class="badge bg-info text-dark ms-2">Featured</span>{% endif %}
+        </div>
+
+        <div class="mb-3">
+          <span class="price">₹{{ product.discount_price|default:product.price }}</span>
+          {% if product.discount_price %}
+            <span class="old-price">₹{{ product.price }}</span>
+            <span class="badge bg-danger ms-2">-{{ product.get_discount_percentage }}%</span>
+          {% endif %}
+        </div>
+
+        <p class="lead">{{ product.description }}</p>
+
+        <form method="POST" action="{% url 'add_to_cart' product.id %}" class="mt-3">
+          {% csrf_token %}
+          <button class="btn btn-primary btn-lg">Add to Cart</button>
+        </form>
+      </div>
+    </div>
+
+    {% if product.benefits %}
+    <hr class="my-5" />
+    <h4>Key Benefits</h4>
+    <p style="white-space:pre-wrap">{{ product.benefits }}</p>
+    {% endif %}
+
+    {% if product.ingredients %}
+    <h4>Ingredients</h4>
+    <p style="white-space:pre-wrap">{{ product.ingredients }}</p>
+    {% endif %}
+
+    {% if product.usage_instructions %}
+    <h4>How to use</h4>
+    <p style="white-space:pre-wrap">{{ product.usage_instructions }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

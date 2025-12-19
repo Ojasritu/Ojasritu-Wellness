@@ -1,0 +1,106 @@
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { cartAPI } from "../services/apiService";
+
+const CartContext = createContext(null);
+
+export function CartProvider({ children }) {
+  const [rawCart, setRawCart] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const refresh = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await cartAPI.get();
+      setRawCart(data);
+    } catch (e) {
+      // If user is not logged in, cart endpoints return 401.
+      // Keep cart empty in that case.
+      if (e?.status === 401) {
+        setRawCart({ items: [], total_price: 0 });
+      } else {
+        setError(e?.message || "Failed to load cart");
+        setRawCart({ items: [], total_price: 0 });
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  const addItem = useCallback(async (product, quantity = 1) => {
+    if (!product || !product.id) return { ok: false, error: "Invalid product" };
+    try {
+      await cartAPI.addItem(product.id, quantity);
+      await refresh();
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, status: e?.status, error: e?.data?.error || e?.message || "Failed to add to cart" };
+    }
+  }, [refresh]);
+
+  const removeItem = useCallback(async (cartItemId) => {
+    try {
+      await cartAPI.removeItem(cartItemId);
+      await refresh();
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, status: e?.status, error: e?.data?.error || e?.message || "Failed to remove item" };
+    }
+  }, [refresh]);
+
+  const clearCart = useCallback(async () => {
+    // No backend clear endpoint; remove items one-by-one.
+    const currentItems = rawCart?.items || [];
+    for (const it of currentItems) {
+      // best-effort
+      // eslint-disable-next-line no-await-in-loop
+      await cartAPI.removeItem(it.id).catch(() => {});
+    }
+    await refresh();
+  }, [rawCart, refresh]);
+
+  // Keep a backward-compatible `items` array shape for UI: flatten cart item -> product fields + quantity.
+  const items = useMemo(() => {
+    const cartItems = rawCart?.items || [];
+    return cartItems.map((ci) => ({
+      id: ci.id, // cart item id (used for remove)
+      quantity: ci.quantity,
+      total_price: ci.total_price,
+      ...(ci.product || {}),
+    }));
+  }, [rawCart]);
+
+  const totals = useMemo(() => {
+    const totalCount = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const totalPrice = Number(rawCart?.total_price ?? items.reduce((sum, item) => {
+      const price = parseFloat(item.discount_price || item.price || 0);
+      return sum + price * (item.quantity || 1);
+    }, 0));
+    return { totalCount, totalPrice };
+  }, [items, rawCart]);
+
+  const value = {
+    items,
+    addItem,
+    removeItem,
+    clearCart,
+    refresh,
+    loading,
+    error,
+    totalCount: totals.totalCount,
+    totalPrice: totals.totalPrice,
+  };
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
+
+export function useCart() {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used within CartProvider");
+  return ctx;
+}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Checkout (Demo)</h2>
+<ul class="list-group mb-3">
+  {% for p in products %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ p.name }} <span>₹{{ p.price }}</span>
+  </li>
+  {% endfor %}
+  <li class="list-group-item d-flex justify-content-between">
+    <strong>Total</strong> <strong>₹{{ total }}</strong>
+  </li>
+</ul>
+
+<form action="/success/" method="get">
+  <p>Use Stripe test card 4242 4242 4242 4242 to simulate payment (this demo does not call Stripe backend).</p>
+  <button class="btn btn-success">Pay (Demo)</button>
+</form>
+{% endblock %}
