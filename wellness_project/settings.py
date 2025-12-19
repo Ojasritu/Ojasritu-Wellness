@@ -7,20 +7,24 @@ import dj_database_url
 # =========================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-change-this-later"
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-only-change-in-production')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('1', 'true', 'yes')
+
+# Production security settings
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_SECURITY_POLICY = {
+        'default-src': ("'self'",),
+    }
 
 # =========================
 # ALLOWED HOSTS
 # =========================
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".railway.app",
-    "ojasritu.co.in",
-    "www.ojasritu.co.in",
-    ".app.github.dev",  # Allow all GitHub Codespaces URLs
-]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.railway.app,.app.github.dev').split(',')
 
 # Use SECURE_PROXY_SSL_HEADER when behind a proxy (Railway or GitHub Codespaces)
 # This tells Django to trust X-Forwarded-Proto header for determining the scheme
