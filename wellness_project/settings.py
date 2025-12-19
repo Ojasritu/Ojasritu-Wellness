@@ -8,10 +8,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-only-change-in-production')
-
-# Default to DEBUG=True locally so media/static and browsable API work out of the box.
-# Set DEBUG=0/false in production via env vars (Railway, Docker, etc.).
-DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('1', 'true', 'yes')
 
 # Production security settings
 if not DEBUG:
@@ -94,7 +91,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://ojasritu.co.in",
     "https://www.ojasritu.co.in",
-    "https://fluffy-bassoon-5g7vw4qpvg773v4jr-5173.app.github.dev",
+    "https://urban-spoon-jjprx45wrjpvhjqwv.github.dev",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
