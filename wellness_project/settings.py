@@ -34,7 +34,7 @@ if not DEBUG and IS_PRODUCTION:
 # ALLOWED HOSTS
 # =========================
 # Always allow local/dev hosts so the server works out of the box
-_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,wellness-project-2-production.up.railway.app,*.railway.app').split(',')
+_default_allowed_hosts = os.getenv('ALLOWED_HOSTS', 'ojasritu.co.in,www.ojasritu.co.in,wellness-project-2-production.up.railway.app').split(',')
 _local_hosts = ['localhost', '127.0.0.1']
 
 # Capture Railway-provided hostnames from common env vars
@@ -45,9 +45,12 @@ _railway_host = _railway_host.replace('https://', '').replace('http://', '').str
 if os.getenv('CODESPACE_NAME') or os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN'):
     _local_hosts.append('*.app.github.dev')
 
-ALLOWED_HOSTS = [host for host in _default_allowed_hosts + _local_hosts if host]
+ALLOWED_HOSTS = [host.strip() for host in _default_allowed_hosts + _local_hosts if host.strip()]
 if _railway_host:
     ALLOWED_HOSTS.append(_railway_host)
+
+# Add Railway wildcard patterns
+ALLOWED_HOSTS.extend(['.railway.app', '.up.railway.app'])
 
 # Use SECURE_PROXY_SSL_HEADER when behind a proxy (Railway or GitHub Codespaces)
 # This tells Django to trust X-Forwarded-Proto header for determining the scheme
