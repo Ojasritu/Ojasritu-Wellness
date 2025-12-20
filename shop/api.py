@@ -56,17 +56,14 @@ class ProductSerializer(serializers.ModelSerializer):
         return 0
     
     def get_image(self, obj):
-        """Return image URL; prefer relative `/media/...` for frontend proxy."""
+        """Return full absolute image URL for production."""
         if not obj.image:
             return None
-        image_url = getattr(obj.image, 'url', None)
-        if not image_url:
-            return None
-        # If image is already absolute (e.g., external CDN), return as is
-        if image_url.startswith('http://') or image_url.startswith('https://'):
-            return image_url
-        # Otherwise return relative path so Vite proxy `/media` can serve it
-        return image_url
+        request = self.context.get('request')
+        if request is not None:
+            return request.build_absolute_uri(obj.image.url)
+        # Fallback to relative URL
+        return obj.image.url if obj.image else None
 
 
 class ProductDetailSerializer(ProductSerializer):
