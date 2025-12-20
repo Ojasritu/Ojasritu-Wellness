@@ -51,3 +51,9 @@ Thumbs.db
 
 # Runtime
 *.pid
+# Virtual environments
+venv/
+.venv/
+
+# NPM cache
+.npm-cache/
