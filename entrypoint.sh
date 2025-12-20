@@ -42,6 +42,9 @@ python manage.py migrate --noinput
 echo "===> Updating Django Site domain"
 python update_site_domain.py || echo "Warning: Site domain update failed, continuing anyway"
 
+echo "===> Creating superuser from env vars"
+bash create_superuser.sh
+
 echo "===> Collecting static files (clear old)"
 python manage.py collectstatic --noinput --clear
 

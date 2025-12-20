@@ -31,7 +31,7 @@ function Home() {
           {/* Side box with Chanakya meditation image */}
           <div className="ancient-sidebox" aria-hidden="false">
             <img
-              src="/images/chanakya-image.png"
+              src="/static/images/chanakya-image.png"
               alt="Chanakya - Ancient Ayurveda Sage"
               className="chanakya-img"
               loading="lazy"

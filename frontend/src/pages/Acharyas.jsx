@@ -66,7 +66,7 @@ export default function Acharyas() {
         {/* Featured Image */}
         <div className="acharyas-image-section">
           <img 
-            src="/images/coming-soon-ayurveda.png"
+            src="/static/images/coming-soon-ayurveda.png"
             alt="Coming Soon Ancient Ayurveda & Nature"
             className="acharyas-image big-coming-soon"
             style={{width: '100%', maxWidth: '900px', borderRadius: '24px', boxShadow: '0 8px 48px rgba(0,0,0,0.25)', margin: '0 auto', display: 'block'}}

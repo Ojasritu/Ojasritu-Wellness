@@ -29,7 +29,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <img src="/images/acharya-hero.png" alt="Calm Acharya welcoming you to Ojasritu" loading="lazy" />
+          <img src="/static/images/acharya-hero.png" alt="Calm Acharya welcoming you to Ojasritu" loading="lazy" />
         </div>
       </div>
     </section>
