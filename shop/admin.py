@@ -15,11 +15,19 @@ class CategoryAdmin(admin.ModelAdmin):
 # ✅ PRODUCT ADMIN
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'price', 'discount_price', 'status', 'is_bestseller', 'quantity_in_stock']
+    list_display = ['image_preview', 'name', 'category', 'price', 'discount_price', 'status', 'is_bestseller', 'quantity_in_stock']
     list_filter = ['status', 'category', 'dosha_type', 'is_bestseller', 'is_featured', 'is_organic', 'created_at']
     search_fields = ['name', 'hindi_name', 'description', 'sku']
     prepopulated_fields = {'slug': ('name',)}
-    readonly_fields = ['created_at', 'updated_at']
+    readonly_fields = ['image_preview', 'created_at', 'updated_at']
+    
+    def image_preview(self, obj):
+        """Display product image thumbnail in admin"""
+        if obj.image:
+            from django.utils.html import format_html
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover;" />', obj.image.url)
+        return "No Image"
+    image_preview.short_description = 'Image'
 
 
 # ✅ PRODUCT REVIEW ADMIN
