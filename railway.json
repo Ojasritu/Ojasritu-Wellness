@@ -1,6 +1,6 @@
 {
-  "name": "wellness-vaidya-ai",
-  "description": "Ojasritu Wellness - Vaidya AI with GPT-4o Mini",
+  "name": "ojasritu-wellness",
+  "description": "Ojasritu Wellness - Complete Ayurveda E-commerce with Vaidya AI",
   "keywords": [
     "django",
     "ayurveda",
@@ -27,7 +27,7 @@
     },
     "ALLOWED_HOSTS": {
       "description": "Allowed hosts for Django",
-      "value": "localhost,127.0.0.1,yourdomain.com,www.yourdomain.com",
+      "value": "ojasritu.co.in,www.ojasritu.co.in,ojasritu-wellness-new.up.railway.app",
       "required": false
     },
     "STRIPE_PUBLIC_KEY": {
