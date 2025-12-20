@@ -39,14 +39,28 @@ def serve_frontend(request):
 
 # -------------------------
 # MEDIA FILE SERVE (PRODUCTION)
-# -------------------------
-def serve_media(request, path):
-    """Serve media files in production when DEBUG=False"""
-    media_root = Path(settings.MEDIA_ROOT)
+# -------------------------\ndef serve_media(request, path):
+    \"\"\"Serve media files in all environments\"\"\"\n    media_root = Path(settings.MEDIA_ROOT)
     file_path = media_root / path
     
+    # Security: prevent directory traversal
+    try:
+        file_path = file_path.resolve()
+        media_root = media_root.resolve()
+        if not str(file_path).startswith(str(media_root)):
+            raise Http404(\"Invalid path\")
+    except:
+        raise Http404(\"Invalid path\")
+    
     if file_path.exists() and file_path.is_file():
-        return FileResponse(open(file_path, 'rb'))
+        # Set proper content type
+        import mimetypes
+        content_type, _ = mimetypes.guess_type(str(file_path))
+        response = FileResponse(open(file_path, 'rb'), content_type=content_type)
+        # Add CORS headers for images
+        response['Access-Control-Allow-Origin'] = '*'
+        response['Cache-Control'] = 'public, max-age=31536000'
+        return response
     raise Http404("Media file not found")
 
 

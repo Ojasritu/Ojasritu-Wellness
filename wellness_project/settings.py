@@ -223,8 +223,25 @@ if _frontend_dist.exists():
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# WhiteNoise configuration for media
+WHITENOISE_AUTOREFRESH = True if DEBUG else False
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_MIMETYPES = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif',
+    '.svg': 'image/svg+xml',
+    '.webp': 'image/webp',
+}
+
+# Media files configuration
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Add MEDIA_URL to CORS origins
+if f"https://{os.getenv('RAILWAY_PUBLIC_DOMAIN', 'ojasritu.co.in')}" not in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS.append(f"https://{os.getenv('RAILWAY_PUBLIC_DOMAIN', 'ojasritu.co.in')}")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
