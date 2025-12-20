@@ -34,8 +34,21 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
     color: var(--text-light);
-    line-height: 1.6;
+    line-height: 1.7; /* Improved readability on mobile */
     min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Global media defaults */
+img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Touch target sizing */
+.btn {
+    min-height: 44px; /* Ensure comfortable tap targets */
 }
 
 /* ======== TYPOGRAPHY ======== */
@@ -93,6 +106,13 @@ nav, .navbar {
     font-weight: 700;
     font-size: 1.5rem;
     letter-spacing: 1px;
+}
+
+/* Logo responsiveness */
+.navbar-brand img {
+    height: auto;
+    max-height: 56px;
+    width: auto;
 }
 
 .nav-link {
@@ -530,30 +550,38 @@ footer {
 
 /* ======== RESPONSIVE ======== */
 @media (max-width: 768px) {
+    html, body { font-size: 16px; }
     h1 {
         font-size: 2rem;
     }
     
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
     
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.05rem;
     }
     
     .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 1rem;
     }
     
     .section {
-        padding: 3rem 1rem;
+        padding: 2.5rem 1rem;
     }
+
+    .container { padding: 0 1rem; }
+
+    .navbar-brand img { max-height: 48px; }
+
+    /* Bootstrap card images: avoid fixed heights on small screens */
+    .card-img-top { height: auto !important; }
 }
 
 @media (max-width: 480px) {
@@ -566,11 +594,17 @@ footer {
     }
     
     .btn {
-        padding: 0.6rem 1.2rem;
+        padding: 0.7rem 1.2rem;
         font-size: 0.9rem;
     }
     
     h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
+
+    p { font-size: 1.05rem; }
+
+    .navbar-brand img { max-height: 44px; }
+
+    .section { padding: 2rem 0.75rem; }
 }
