@@ -18,9 +18,9 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="nav-left">
-          <Link to="/" className="logo">Ojasritu Wellness</Link>
+      <nav className="site-navbar">
+        <div className="site-nav-left">
+          <Link to="/" className="site-logo">Ojasritu Wellness</Link>
           <Link to="/products">Products</Link>
           <Link to="/about">About</Link>
           <Link to="/blog">Blog</Link>
@@ -30,8 +30,8 @@ export default function Layout({ children }) {
           <Link to="/contact">Contact</Link>
         </div>
 
-        <div className="nav-right">
-          <Link to="/cart" className="cart-link" aria-label="Cart">
+        <div className="site-nav-right">
+          <Link to="/cart" className="site-cart-link" aria-label="Cart">
             🛒 Cart
             {totalCount > 0 && <span className="cart-badge">{totalCount}</span>}
           </Link>

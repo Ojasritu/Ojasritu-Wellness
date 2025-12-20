@@ -61,6 +61,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Ensure media scales correctly on all screens */
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* ===== Scrollbar Styling ===== */
 ::-webkit-scrollbar {
   width: 10px;
@@ -878,9 +885,12 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  .nav-links {
-    display: none;
-  }
+  /* Generic nav links hidden for small screens if present */
+  .nav-links { display: none; }
+
+  /* React navbar: allow wrapping and full-width actions */
+  .site-navbar { padding: 12px 14px; flex-wrap: wrap; gap: 10px; }
+  .site-nav-right { width: 100%; justify-content: flex-start; gap: 10px; }
 
   .admin-layout {
     grid-template-columns: 1fr;
