@@ -67,7 +67,6 @@ def serve_media(request, path):
 
 
 urlpatterns = [
-
     # =========================
     # ADMIN PANEL
     # =========================
@@ -84,16 +83,6 @@ urlpatterns = [
     path("api/", include("shop.urls")),
 
     # =========================
-    # FRONTEND (SPA) at root
-    # =========================
-    path("", serve_frontend),
-
-    # =========================
-    # WEB PAGES (legacy)
-    # =========================
-    path("web/", include("shop.web_urls")),
-
-    # =========================
     # HEALTH CHECK (Railway / Local)
     # =========================
     path("healthz/", health_check),
@@ -108,6 +97,11 @@ urlpatterns = [
     # MEDIA FILES (PRODUCTION)
     # =========================
     re_path(r'^media/(?P<path>.*)$', serve_media, name='media'),
+
+    # =========================
+    # FRONTEND (SPA) - catch-all must be LAST
+    # =========================
+    re_path(r'^.*$', serve_frontend, name='spa'),
 ]
 
 # Custom handlers for friendly error pages
