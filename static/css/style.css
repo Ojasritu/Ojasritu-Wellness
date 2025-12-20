@@ -39,6 +39,9 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+/* Defensive: ensure no external CSS forces large min-width */
+html, body { min-width: 0 !important; }
+
 /* Global media defaults */
 img, svg, video, canvas {
     max-width: 100%;
@@ -99,6 +102,14 @@ nav, .navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 0.5rem;
 }
 
 .navbar-brand {
@@ -588,6 +599,7 @@ footer {
     .navbar {
         padding: 0.5rem 1rem;
     }
+    .navbar .container { gap: 0.75rem; }
     
     .product-grid {
         grid-template-columns: 1fr;
