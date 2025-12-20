@@ -39,8 +39,10 @@ def serve_frontend(request):
 
 # -------------------------
 # MEDIA FILE SERVE (PRODUCTION)
-# -------------------------\ndef serve_media(request, path):
-    \"\"\"Serve media files in all environments\"\"\"\n    media_root = Path(settings.MEDIA_ROOT)
+# -------------------------
+def serve_media(request, path):
+    """Serve media files in all environments"""
+    media_root = Path(settings.MEDIA_ROOT)
     file_path = media_root / path
     
     # Security: prevent directory traversal
@@ -48,9 +50,9 @@ def serve_frontend(request):
         file_path = file_path.resolve()
         media_root = media_root.resolve()
         if not str(file_path).startswith(str(media_root)):
-            raise Http404(\"Invalid path\")
+            raise Http404("Invalid path")
     except:
-        raise Http404(\"Invalid path\")
+        raise Http404("Invalid path")
     
     if file_path.exists() and file_path.is_file():
         # Set proper content type
