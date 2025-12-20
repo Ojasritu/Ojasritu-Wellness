@@ -25,7 +25,11 @@ var/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
+# Keep media directory structure but ignore user uploads
+# media/
+# Whitelist seed images
+!media/products/*.png
+!media/products/*.jpg
 staticfiles/
 
 exports/

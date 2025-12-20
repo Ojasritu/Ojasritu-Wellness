@@ -48,6 +48,9 @@ python manage.py shell -c "from django.contrib.auth import get_user_model; User=
 echo "===> Collecting static files (clear old)"
 python manage.py collectstatic --noinput --clear
 
+echo "===> Seeding database with demo products and images"
+python manage.py seed_products || echo "Warning: Product seeding failed, continuing anyway"
+
 PORT_TO_BIND=${PORT:-8000}
 
 echo "===> Starting Gunicorn on 0.0.0.0:${PORT_TO_BIND}"
