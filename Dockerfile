@@ -24,11 +24,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Copy built frontend files
-COPY --from=frontend-builder /app/frontend/dist /app/staticfiles/frontend
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Copy built frontend files into project directory so collectstatic can process them
+COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 
 # Add an entrypoint to run migrations and collectstatic at container start
 COPY entrypoint.sh .
