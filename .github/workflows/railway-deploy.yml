@@ -1,0 +1,62 @@
+name: Railway Deploy and Verify
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Railway CLI
+        run: |
+          npm install -g @railway/cli
+
+      - name: Railway Login (browserless)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "RAILWAY_TOKEN secret not set. Add it in GitHub repository settings." >&2
+            exit 1
+          fi
+          railway login --browserless
+
+      - name: Deploy to Railway
+        run: |
+          railway up
+
+      - name: Status and Logs
+        run: |
+          set -e
+          railway status | tee railway-status.txt || true
+          railway logs || true
+        continue-on-error: true
+
+      - name: Verify endpoints
+        run: |
+          set -e
+          echo "Checking service domain healthz..."
+          curl -s -o /dev/null -w "%{http_code}" https://ojasritu-wellness-new.up.railway.app/healthz || true
+          echo "Checking custom domain root..."
+          curl -I https://ojasritu.co.in || true
+          echo "Checking admin..."
+          curl -I https://ojasritu.co.in/admin/ || true
+          echo "Checking API..."
+          curl -I https://ojasritu.co.in/api/ || true
+
+      - name: Upload status artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: railway-status
+          path: railway-status.txt
