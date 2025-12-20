@@ -42,8 +42,8 @@ python manage.py migrate --noinput
 echo "===> Updating Django Site domain"
 python update_site_domain.py || echo "Warning: Site domain update failed, continuing anyway"
 
-echo "===> Creating superuser from env vars"
-bash create_superuser.sh
+echo "===> Creating/ensuring superuser"
+python manage.py shell -c "from django.contrib.auth import get_user_model; User=get_user_model(); email='${DJANGO_SUPERUSER_EMAIL:-ojasrituwellness@gmail.com}'; username='${DJANGO_SUPERUSER_USERNAME:-admin}'; pwd='${DJANGO_SUPERUSER_PASSWORD:-admin@12345}'; user=User.objects.filter(email=email).first(); user or User.objects.create_superuser(username=username, email=email, password=pwd); print('Superuser ready')" || echo "Warning: Superuser creation skipped"
 
 echo "===> Collecting static files (clear old)"
 python manage.py collectstatic --noinput --clear
