@@ -5,6 +5,7 @@ const isCodespaces = Boolean(process.env.CODESPACE_NAME || process.env.GITHUB_CO
 const forwardedProtoHeaders = isCodespaces ? { 'X-Forwarded-Proto': 'https' } : undefined;
 
 export default defineConfig({
+  base: '/static/',
   plugins: [react()],
   resolve: {
     alias: {
