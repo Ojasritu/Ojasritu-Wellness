@@ -4,6 +4,16 @@ import '../pages/Profile.css'
 export default function ProfileSidebar({ user, profile, active, setActive, onLogout, onAvatarChange, onRemoveAvatar, preview }) {
   const initials = (user?.first_name || user?.username || '').charAt(0)?.toUpperCase()
 
+  const navItems = [
+    { key: 'overview', label: 'Dashboard', icon: '📊' },
+    { key: 'personal', label: 'Personal Details', icon: '👤' },
+    { key: 'orders', label: 'Orders & Bookings', icon: '🧾' },
+    { key: 'tracking', label: 'Order Tracking', icon: '📍' },
+    { key: 'history', label: 'Purchase History', icon: '🕒' },
+    { key: 'addresses', label: 'Saved Addresses', icon: '🏠' },
+    { key: 'settings', label: 'Account & Logout', icon: '⚙️' },
+  ]
+
   return (
     <aside className="pf-sidebar">
       <div className="pf-avatar-wrap">
@@ -26,15 +36,21 @@ export default function ProfileSidebar({ user, profile, active, setActive, onLog
       <div className="pf-user">
         <div className="pf-name">{user?.first_name || user?.username}</div>
         <div className="pf-email">{user?.email}</div>
-        <button className="btn edit" onClick={() => setActive('profile')}>Edit profile</button>
+        <button className="btn edit" onClick={() => setActive('personal')}>Edit profile</button>
       </div>
 
       <nav className="pf-nav">
-        <button className={"nav-item " + (active === 'overview' ? 'active' : '')} onClick={() => setActive('overview')}>Dashboard</button>
-        <button className={"nav-item " + (active === 'orders' ? 'active' : '')} onClick={() => setActive('orders')}>My Orders</button>
-        <button className={"nav-item " + (active === 'bookings' ? 'active' : '')} onClick={() => setActive('bookings')}>My Bookings</button>
-        <button className={"nav-item " + (active === 'settings' ? 'active' : '')} onClick={() => setActive('settings')}>Account Settings</button>
-        <button className="nav-item logout" onClick={onLogout}>Logout</button>
+        {navItems.map(item => (
+          <button
+            key={item.key}
+            className={"nav-item " + (active === item.key ? 'active' : '')}
+            onClick={() => setActive(item.key)}
+          >
+            <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+            {item.label}
+          </button>
+        ))}
+        <button className="nav-item logout" onClick={onLogout}>↪ Logout</button>
       </nav>
     </aside>
   )
