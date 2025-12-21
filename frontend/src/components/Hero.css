@@ -162,6 +162,17 @@
   }
 }
 
+/* Desktop-only alignment for premium shlok presentation */
+@media (min-width: 901px) {
+  .hero-text { position: relative; }
+  .slok-banner {
+    position: static;
+    display: inline-block;
+    margin: 0 auto;
+    transform: translateY(-22px) rotate(-1deg);
+  }
+}
+
 @media (max-width: 600px) {
   .hero-inner { align-items: center; text-align: center; gap: 16px; }
   .hero-text { width: 100%; }

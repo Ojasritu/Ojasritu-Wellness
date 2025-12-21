@@ -8,18 +8,19 @@
 }
 
 .policy-header {
-  background: linear-gradient(135deg, #d4af37 0%, #f5d76e 100%);
-  color: #071c2f;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(245, 215, 110, 0.22) 100%),
+              linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+  color: #e9eef6;
   padding: 60px 20px;
   text-align: center;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.5);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 .policy-header h1 {
   font-size: 48px;
   margin: 0 0 10px 0;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .policy-header .last-updated {
