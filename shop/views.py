@@ -103,3 +103,24 @@ def contact_view(request):
             ContactMessage.objects.create(name=name, email=email, subject=subject, message=message)
             return render(request, 'contact.html', {'success': True})
     return render(request, 'contact.html', {})
+
+
+# ===== POLICY PAGES =====
+def shipping_policy(request):
+    """Shipping Policy page"""
+    return render(request, 'policies/shipping_policy.html', {})
+
+
+def terms_and_conditions(request):
+    """Terms and Conditions page"""
+    return render(request, 'policies/terms_and_conditions.html', {})
+
+
+def cancellation_refund_policy(request):
+    """Cancellation & Refund Policy page"""
+    return render(request, 'policies/cancellation_refund_policy.html', {})
+
+
+def privacy_policy(request):
+    """Privacy Policy page"""
+    return render(request, 'policies/privacy_policy.html', {})

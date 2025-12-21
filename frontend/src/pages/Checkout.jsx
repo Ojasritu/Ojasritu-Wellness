@@ -104,7 +104,7 @@ export default function Checkout() {
           <div className="checkout-section prebooking-info">
             <h2>🚀 Pre-booking Information</h2>
             <div className="info-box">
-              <p><strong>Launch Date:</strong> 21st December 2025</p>
+              <p><strong>Launch Date:</strong> 25th December 2025</p>
               <p><strong>Payment:</strong> Simulation only (no real charges)</p>
               <p><strong>Status:</strong> Pre-booking phase</p>
             </div>

@@ -198,10 +198,10 @@ const Products = () => {
             </div>
             <div className="modal-info">
               <p className="modal-notice">
-                <strong>Pre-booking Period:</strong> Now until 21st December 2025
+                <strong>Pre-booking Period:</strong> Now until 25th December 2025
               </p>
               <p className="modal-notice">
-                <strong>Payment Opens:</strong> 21st December 2025
+                <strong>Payment Opens:</strong> 25th December 2025
               </p>
               <p className="modal-notice">
                 <strong>Delivery:</strong> Free shipping across India
@@ -437,7 +437,7 @@ const Products = () => {
               <div className="prebooking-banner">
                 <div className="prebooking-inner">
                   <span className="prebooking-icon">🚀</span>
-                  <span>Pre-booking starts from <strong>21st December 2025</strong></span>
+                  <span>Pre-booking starts from <strong>25th December 2025</strong></span>
                 </div>
               </div>
             </>

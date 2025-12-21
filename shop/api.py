@@ -470,7 +470,7 @@ def create_prebooking(request):
         'order_id': order.order_id,
         'amount': amount,
         'status': 'pending',
-        'note': 'Payment will be available from 21st December 2025'
+        'note': 'Payment will be available from 25th December 2025'
     }, status=status.HTTP_201_CREATED)
 
 
@@ -513,7 +513,7 @@ def create_prebooking_from_cart(request):
         'amount': cart_total,
         'status': 'pending',
         'cart_cleared': True,
-        'note': 'Payment will be available from 21st December 2025'
+        'note': 'Payment will be available from 25th December 2025'
     }, status=status.HTTP_201_CREATED)
 
 

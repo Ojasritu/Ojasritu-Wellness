@@ -66,6 +66,10 @@ def serve_media(request, path):
     raise Http404("Media file not found")
 
 
+# ===== POLICY PAGE VIEWS =====
+from shop.views import shipping_policy, terms_and_conditions, cancellation_refund_policy, privacy_policy
+
+
 urlpatterns = [
     # =========================
     # ADMIN PANEL
@@ -76,6 +80,14 @@ urlpatterns = [
     # DJANGO ALLAUTH (Google OAuth internal)
     # =========================
     path("accounts/", include("allauth.urls")),
+
+    # =========================
+    # POLICY PAGES (Public URLs for Razorpay)
+    # =========================
+    path("shipping-policy/", shipping_policy, name="shipping_policy"),
+    path("terms-and-conditions/", terms_and_conditions, name="terms_and_conditions"),
+    path("cancellation-refund-policy/", cancellation_refund_policy, name="cancellation_refund_policy"),
+    path("privacy-policy/", privacy_policy, name="privacy_policy"),
 
     # =========================
     # API (AUTH + SHOP + PROFILE)

@@ -22,6 +22,10 @@ import OjasGurukul from "./pages/OjasGurukul";
 import ProductDetail from "./pages/ProductDetail";
 import Orders from "./pages/Orders";
 import OrderDetail from "./pages/OrderDetail";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import CancellationRefundPolicy from "./pages/CancellationRefundPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -48,6 +52,12 @@ function App() {
 
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+
+        {/* Policy Pages */}
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
         <Route path="*" element={<ComingSoon />} />
       </Routes>

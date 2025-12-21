@@ -378,7 +378,7 @@ export default function Cart() {
                 <div className="notice-icon">🚀</div>
                 <div className="notice-content">
                   <strong>Pre-booking Open!</strong>
-                  <p>Until 21st December 2025</p>
+                  <p>Until 25th December 2025</p>
                   <p className="notice-small">Payment enabled on launch date</p>
                 </div>
               </div>
