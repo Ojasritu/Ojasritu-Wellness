@@ -128,7 +128,7 @@
   margin: 0;
   color: #071021;
   font-weight: 700;
-  font-size: 16px;
+  font-size: clamp(13px, 2.2vw, 16px);
   font-family: 'Noto Sans Devanagari', 'Merriweather', serif;
   letter-spacing: 0.6px;
   text-shadow: 0 1px 0 rgba(255,255,255,0.06);
@@ -146,7 +146,8 @@
   .hero-text { width: 100%; }
   .hero-illustration { flex: 0 0 auto; width: 100%; max-width: 420px; padding: 12px 0 18px; position: relative; }
   .hero-illustration img { width: 100%; }
-  .slok-banner { left: 0; top: -18px; transform: translateY(-20%); }
+  .slok-banner { left: 0; top: -26px; transform: translateY(0); padding: 8px 16px; }
+  .slok-line { font-size: clamp(12px, 2vw, 14px); }
   .acharya-bubble { 
     left: 50%;
     top: 12%;
@@ -162,16 +163,25 @@
 }
 
 @media (max-width: 600px) {
-  .hero-inner { align-items: center; text-align: center; gap: 20px; }
+  .hero-inner { align-items: center; text-align: center; gap: 16px; }
   .hero-text { width: 100%; }
-  .slok-banner { left: 50%; right: auto; top: -22px; margin: 0; transform: translate(-50%, -10%); max-width: 90%; text-align: center; }
+  .slok-banner { left: 50%; right: auto; top: -30px; margin: 0; transform: translate(-50%, 0); max-width: 85%; text-align: center; padding: 7px 14px; }
+  .slok-line { font-size: 11px; letter-spacing: 0.3px; }
+  .hero-text h1 { font-size: clamp(24px, 3.5vw, 32px); margin: 8px 0 12px 0; }
+  .hero-text p { font-size: clamp(14px, 2.2vw, 16px); margin: 0 0 12px 0; }
   .acharya-bubble { 
-    max-width: 88%;
+    max-width: 85%;
     padding: 10px 12px;
-    top: 16%;
+    top: 22%;
+    left: 28%;
+    transform: translate(-50%, -100%);
   }
   .bubble-text {
     font-size: 13px;
+  }
+  .acharya-bubble::after {
+    left: 22%;
+    transform: translateX(-50%) rotate(45deg);
   }
 }
 

@@ -900,11 +900,13 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  /* Center the chatbot under navbar, avoid hero overlap */
+  /* Move chat button below Acharya on mobile, stay fixed */
   .chatbot {
-    left: 50%;
-    top: calc(var(--navbar-height, 56px) + 12px);
-    transform: translateX(-50%);
+    bottom: auto;
+    top: auto;
+    right: 20px;
+    left: auto;
+    transform: none;
   }
 
   .chat-window {
@@ -912,7 +914,8 @@ a:hover {
     max-height: 70vh;
     left: 50%;
     transform: translateX(-50%);
-    top: 74px;
+    bottom: 80px;
+    top: auto;
   }
 
   .section-title h2 {
@@ -933,7 +936,7 @@ a:hover {
     padding: 1.5rem;
   }
 
-  /* Keep centered and full width on small mobiles */
-  .chatbot { left: 50%; top: calc(var(--navbar-height, 56px) + 10px); transform: translateX(-50%); }
-  .chat-window { width: calc(100vw - 20px); left: 50%; transform: translateX(-50%); top: 74px; }
+  /* Keep chat button bottom-right on small mobile, below hero */
+  .chatbot { right: 16px; bottom: 20px; left: auto; top: auto; transform: none; }
+  .chat-window { width: calc(100vw - 16px); left: auto; right: 16px; transform: none; bottom: 80px; top: auto; }
 }
