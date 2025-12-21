@@ -458,7 +458,7 @@ a:hover {
 /* Primary Chatbot wrapper used on Home landing page */
 .chatbot {
   position: fixed;
-  left: 20px;
+  right: 20px;
   bottom: 20px;
   z-index: 900; /* below navbar, above hero */
 }
@@ -485,7 +485,11 @@ a:hover {
 
 .chat-toggle:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.7), inset 0 -2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 35px rgba(212, 175, 55, 0.8), inset 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.chat-toggle:active {
+  transform: translateY(-1px) scale(1.02);
 }
 
 .chat-toggle .chat-icon {

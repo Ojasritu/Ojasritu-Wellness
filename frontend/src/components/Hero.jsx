@@ -6,13 +6,13 @@ export default function Hero() {
     <section className="hero">
       <div className="container hero-inner">
         <div className="hero-text">
+          {/* Sanskrit line - anchored near heading */}
+          <div className="slok-banner" aria-hidden="false">
+            <p className="slok-line">शरीरमाद्यं खलु धर्मसाधनम्।</p>
+          </div>
+
           <h1>Ojasritu — Ayurveda for Modern Life</h1>
           <p>Natural products, authentic practices, and guided wellness plans.</p>
-        </div>
-
-        {/* Animated Slok Banner (Hindi) */}
-        <div className="slok-banner" aria-hidden="false">
-          <p className="slok-line">शरीरमाद्यं खलु धर्मसाधनम्।</p>
         </div>
 
         <div className="hero-illustration" role="presentation">
