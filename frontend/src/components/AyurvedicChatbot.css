@@ -74,6 +74,24 @@
   overflow: hidden;
 }
 
+/* DESKTOP FIX: Ensure chat window is properly aligned and visible */
+@media (min-width: 1024px) {
+  .ayurvedic-chatbot-container {
+    right: 24px;
+    bottom: 24px;
+    z-index: 10000;
+  }
+
+  .chatbot-window {
+    right: 0;
+    bottom: 90px;
+    width: min(420px, calc(100vw - 48px));
+    max-width: 420px;
+    max-height: min(640px, calc(100vh - 140px));
+    z-index: 10000;
+  }
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;

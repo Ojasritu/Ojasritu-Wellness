@@ -248,7 +248,8 @@ export default function Cart() {
                       <button 
                         className="qty-btn qty-minus"
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevent event bubbling
+                          e.stopPropagation();
+                          e.preventDefault();
                           updateQuantity(item.id, -1);
                         }}
                         aria-label="Decrease quantity"
@@ -263,18 +264,20 @@ export default function Cart() {
                         min="1"
                         max="99"
                         onChange={(e) => {
-                          e.stopPropagation(); // Prevent event bubbling
+                          e.stopPropagation();
+                          e.preventDefault();
                           const val = Math.max(1, Math.min(99, parseInt(e.target.value) || 1));
                           setQuantities(prev => ({ ...prev, [item.id]: val }));
                         }}
-                        onFocus={(e) => e.stopPropagation()} // Prevent focus issues
-                        onBlur={(e) => e.stopPropagation()} // Prevent blur issues
+                        onFocus={(e) => e.stopPropagation()}
+                        onBlur={(e) => e.stopPropagation()}
                         aria-label="Quantity"
                       />
                       <button 
                         className="qty-btn qty-plus"
                         onClick={(e) => {
-                          e.stopPropagation(); // Prevent event bubbling
+                          e.stopPropagation();
+                          e.preventDefault();
                           updateQuantity(item.id, 1);
                         }}
                         aria-label="Increase quantity"
@@ -294,7 +297,8 @@ export default function Cart() {
                     <button 
                       className="btn-remove"
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent event bubbling
+                        e.stopPropagation();
+                        e.preventDefault();
                         handleRemoveClick(item);
                       }}
                       title="Remove from cart"
@@ -388,14 +392,19 @@ export default function Cart() {
                 <button 
                   className="btn-checkout"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent event bubbling
+                    e.stopPropagation();
+                    e.preventDefault();
                     goToCheckout();
                   }}
                 >
                   Proceed to Checkout
                 </button>
 
-                <Link to="/products" className="btn-continue-shopping">
+                <Link 
+                  to="/products" 
+                  className="btn-continue-shopping"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   Continue Shopping
                 </Link>
               </div>

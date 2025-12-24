@@ -519,14 +519,21 @@ a:hover {
   animation: slideInUp 0.3s ease;
 }
 
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@media (min-width: 1024px) {
+  .chatbot {
+    right: 24px;
+    bottom: 24px;
+    z-index: 1200;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .chat-window {
+    left: auto;
+    right: 0;
+    width: min(420px, calc(100vw - 48px));
+    max-width: 420px;
+    max-height: min(620px, calc(100vh - 160px));
+    overflow: hidden;
+    z-index: 1200;
   }
 }
 
